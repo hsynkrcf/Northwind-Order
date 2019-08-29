@@ -13,6 +13,8 @@ namespace OrderProgram
     public partial class frmAddOrder : Form
     {
         Helper help;
+        double toplam;
+
         public frmAddOrder()
         {
             InitializeComponent();
@@ -30,7 +32,7 @@ namespace OrderProgram
             lvi.SubItems.Add(unitprice);
 
             lvProducts.Items.Add(lvi);
-        }
+        }     
 
         private void LvProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -46,12 +48,12 @@ namespace OrderProgram
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
             lblToplamFiyat.Text = help.GetSumPrice(txtGuncUnitPrice.Text, txtGuncQuantity.Text, txtGuncDiscount.Text).ToString();
-        }
+        }     // BU ÜÇ METOD ÜRÜN FİYAT, TANE, İNDİRİM GİBİ SAYISAL DEĞER İSTENİLDİĞİ İÇİN
         private void TxtGuncQuantity_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
             lblToplamFiyat.Text = help.GetSumPrice(txtGuncUnitPrice.Text, txtGuncQuantity.Text, txtGuncDiscount.Text).ToString();
-        }
+        }       // KULLANICININ SADECE SAYI GİRİŞİ YAPMASINI SAĞLIYOR
         private void TxtGuncDiscount_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
@@ -71,7 +73,7 @@ namespace OrderProgram
                 }
                 else
                 {
-                    MessageBox.Show("Gardaşım napıyorsun bu kadar stoğumuz yok");
+                    MessageBox.Show("ÜRÜN STOĞU YETERLİ DEĞİLDİR.");
                 }
             }
             else
@@ -79,8 +81,8 @@ namespace OrderProgram
                 MessageBox.Show("Tüm değerleri girmeniz zorunludur");
             }
         }
-        private void BtnAdd_Click(object sender, EventArgs e)
-        {
+        private void BtnAdd_Click(object sender, EventArgs e)         //BURASI BİRAZ KALABALIK OLDU SORGULAR YÜZÜNDEN VE DE BASİT İŞLERİ METOT YAPMADIM :)
+        {         
             if (lstCustomers.SelectedItem != null && lstEmployees.SelectedItem != null)
             {
                 string cusQ = "";
@@ -107,6 +109,14 @@ namespace OrderProgram
 
                 string query = @"INSERT INTO Orders(CustomerID,EmployeeID,OrderDate,RequiredDate,Freight,ShipAddress,ShipCity,ShipCountry)VALUES('" + help.ıdGetirString(cusQ) + "', '" + help.ıdGetirInt(empQ) + "', '" + orderdate + "', '" + requireddate + "', '" + txtFreight.Text + "', '" + txtShipAddress.Text + "', '" + txtShipCity.Text + "', '" + txtShipCountry.Text + "')";
 
+                //-----------------------
+                if (((toplam/100)*15 < help.DiscountSum(lvProducts)))
+                {
+                    MessageBox.Show("Siparişin İndirimleri Toplam Fiyatın %15'inden çok olamaz!!!");
+                    return;
+                }
+                //-------------------------
+
                 help.InsertDBOrder(query);
                 if (lvProducts.Items.Count > 0)
                 {
@@ -120,16 +130,6 @@ namespace OrderProgram
             }
         }
 
-        private void AddOrder_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            decimal toplam = 0;
-            foreach (ListViewItem item in lvProducts.Items)
-            {
-                toplam+=decimal.Parse(item.SubItems[4].Text);
-            }
-            lblToplam.Text = toplam.ToString();
-        }
-
         private void AddOrder_Load_1(object sender, EventArgs e)
         {
             string customerQuery = "SELECT CompanyName FROM Customers";
@@ -138,16 +138,21 @@ namespace OrderProgram
             help.FillAddOrderListBox(customerQuery, lstCustomers);
             help.FillAddOrderListBox(employeeQuery, lstEmployees);
             help.FillAddOrderListBox(productQuery, lstProducts);
-        }
+        }         //FORM AÇILIRKEN DOLDUR
 
         private void AddOrder_DoubleClick(object sender, EventArgs e)
         {
-            decimal toplam = 0;
+            toplam = 0;
             foreach (ListViewItem item in lvProducts.Items)
             {
-                toplam += decimal.Parse(item.SubItems[4].Text);
+                toplam += double.Parse(item.SubItems[4].Text);
             }
             lblToplam.Text = toplam.ToString();
-        }
+        }     //DBCLİCK ÜRÜN FİYAT BELİRLER
+
+        private void BtnDeleteProduct_Click(object sender, EventArgs e)
+        {
+            lvProducts.SelectedItems[0].Remove();
+        }       //ÜRÜN SİL
     }
 }

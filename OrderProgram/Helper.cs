@@ -45,7 +45,7 @@ namespace OrderProgram
             toplamfiyat = ucret * adet;
             toplamfiyat = toplamfiyat - (toplamfiyat * indirim);
             return toplamfiyat;
-        }
+        }         //TOPLAM FİYAT İÇİN
         public string ProductUnitPrice(string productName)
         {
             CheckConnection();
@@ -63,32 +63,32 @@ namespace OrderProgram
             unitprice.Replace(',', '.');
 
             return unitprice;            
-        }
+        }      //ÜRÜN ADINA GÖRE FİYAT
         public SqlDataReader GetReader()
         {
             return cmd.ExecuteReader(CommandBehavior.CloseConnection);
-        }
+        }       //ADO READER METOT
         public int ıdGetirInt(string query)
         {
             CheckConnection();
             cmd = new SqlCommand(query, con);
             int ıd = Convert.ToInt16(cmd.ExecuteScalar());
             return ıd;
-        }
+        }        //QUERY İLE İNT ID DÖNER
         public string ıdGetirString(string query)
         {
             CheckConnection();            
             cmd = new SqlCommand(query, con);
             string ıd = cmd.ExecuteScalar().ToString();
             return ıd;
-        }
+        }      //QUERY İLE STRİNG ID DÖNER (CUSTOMERS İÇİN)
         private void CheckConnection()
         {
             if (con.State == ConnectionState.Closed)
             {
                 con.Open();
             }
-        }     
+        }         //VERİTABANI BAĞLANTISINI KONTROL EDER
         public void FillAddOrderListBox(string query1, ListBox lb1)
         {
             CheckConnection();
@@ -99,7 +99,7 @@ namespace OrderProgram
                 lb1.Items.Add(reader.GetString(0));
             }
             reader.Close();            
-        }
+        }      //LİSTBOXI SİPARİŞLER İLE DOLDURMAK İÇİN
         public bool UnitCount(string productName,int adet)
         {
             string query = "";
@@ -120,7 +120,7 @@ namespace OrderProgram
             {
                 return true;
             }
-        }
+        }     //ÜRÜN ADINA GÖRE ADET SORGUSU DÖNEN METOT
         public void InsertDBOrder(string query)
         {            
             int affected = 0;
@@ -135,7 +135,7 @@ namespace OrderProgram
             {
                 MessageBox.Show("Sipariş Eklemesi Başarısız");
             }
-        }       
+        }                //ORDERS TABLOSUNA EKLEME YAPAN METOT
         public void InsertDBOrderDetails(ListView lv)
         {
             int ProductID = 0;
@@ -167,7 +167,7 @@ namespace OrderProgram
                 cmd.ExecuteNonQuery();
             }
 
-        }
+        }          //ORDER DETAİLS TABLOSUNA EKLEME YAPAN METOT
         public void FillWithQuery(string query, ListView lv)
         {
             CheckConnection();
@@ -202,6 +202,21 @@ namespace OrderProgram
                 lv.Items.Add(lvi);
             }
             reader.Close();
-        }
+        }   //SORGUYA GÖRE LİSTVİEW DOLDURUYOR
+        public double DiscountSum(ListView lv)      
+        {
+            double discountSum = 0.0;
+            for (int i = 0; i < lv.Items.Count; i++)
+            {
+                double unitPrice = double.Parse(lv.Items[i].SubItems[1].Text);
+                int quantity = int.Parse(lv.Items[i].SubItems[2].Text);
+                double discount = double.Parse(lv.Items[i].SubItems[3].Text);
+                if (discount != 0)
+                {
+                discountSum += (unitPrice * quantity) * (1 - (discount/100));
+                }
+            }
+            return discountSum;
+        } // SEPETTE Kİ ÜRÜNLERİN TOPLAM İNDİRİMİNİ BULUR.
     }
 }

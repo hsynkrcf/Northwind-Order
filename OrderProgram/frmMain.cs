@@ -23,7 +23,7 @@ namespace OrderProgram
             listView1.Items.Clear();
             string query = @"SELECT o.OrderID,o.OrderDate,o.RequiredDate,c.CompanyName,e.FirstName+' '+e.LastName AS Employee,o.ShipAddress + ' /' + o.ShipCity + ' /' + o.ShipCountry AS ShipAddress,o.Freight,DATEDIFF(DAY,RequiredDate,ShippedDate) AS DelayedDay FROM Orders o JOIN Customers c ON c.CustomerID = o.CustomerID JOIN Employees e ON e.EmployeeID = o.EmployeeID";
             help.FillWithQuery(query, listView1);
-        }
+        }         // ORDERS TABLOSUNU LİSTEYE AKTAR SÜREKLİ YENİLEME GÖREVİ..
         private void Form1_Load(object sender, EventArgs e)
         {
             Refresh();

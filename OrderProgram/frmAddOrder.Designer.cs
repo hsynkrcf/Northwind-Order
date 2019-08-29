@@ -67,6 +67,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.lblToplamFiyat = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDeleteProduct = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -426,7 +427,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bilgi";
             // 
-            // AddOrder
+            // btnDeleteProduct
+            // 
+            this.btnDeleteProduct.Location = new System.Drawing.Point(412, 557);
+            this.btnDeleteProduct.Name = "btnDeleteProduct";
+            this.btnDeleteProduct.Size = new System.Drawing.Size(143, 44);
+            this.btnDeleteProduct.TabIndex = 39;
+            this.btnDeleteProduct.Text = "ÜRÜN SİL";
+            this.btnDeleteProduct.UseVisualStyleBackColor = true;
+            this.btnDeleteProduct.Click += new System.EventHandler(this.BtnDeleteProduct_Click);
+            // 
+            // frmAddOrder
             // 
             this.AcceptButton = this.btnAdd;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -444,6 +455,7 @@
             this.Controls.Add(this.txtGuncDiscount);
             this.Controls.Add(this.txtGuncQuantity);
             this.Controls.Add(this.txtGuncUnitPrice);
+            this.Controls.Add(this.btnDeleteProduct);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.lstProducts);
             this.Controls.Add(this.lvProducts);
@@ -466,7 +478,7 @@
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnAddProc);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "AddOrder";
+            this.Name = "frmAddOrder";
             this.Text = "Sipariş Ekle";
             this.Load += new System.EventHandler(this.AddOrder_Load_1);
             this.DoubleClick += new System.EventHandler(this.AddOrder_DoubleClick);
@@ -518,5 +530,6 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lblToplamFiyat;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnDeleteProduct;
     }
 }
