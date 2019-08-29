@@ -211,9 +211,10 @@ namespace OrderProgram
                 double unitPrice = double.Parse(lv.Items[i].SubItems[1].Text);
                 int quantity = int.Parse(lv.Items[i].SubItems[2].Text);
                 double discount = double.Parse(lv.Items[i].SubItems[3].Text);
+                double t = unitPrice + quantity;
                 if (discount != 0)
                 {
-                discountSum += (unitPrice * quantity) * (1 - (discount/100));
+                discountSum += t-((t) * (1 - (discount/100)));
                 }
             }
             return discountSum;
