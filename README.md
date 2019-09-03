@@ -9,7 +9,7 @@
 >Siparişin toplam tutarı kullanıcıya gösterilir. Fiyat ve indirim bilgisi değiştirildiğinde toplam tutar anlık güncellenir.
 Sipariş Ekle butonuna basıldığında sipariş veritabanına kaydedilir, oluşturma ekranı kapanır ve listeleme ekranına dönülür. Yeni eklenen sipariş listeleme ekranında hemen güncel bir şekilde düşer kullanıcı kontrol eder.
 
-![AddOrder](https://resimag.com/p1/59900cee7e5.png)
+![AddOrder](https://resimag.com/p1/c1dc5066fa6.png)
 
 
 ## EKSTRA
